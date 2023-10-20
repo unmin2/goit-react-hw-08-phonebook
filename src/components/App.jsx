@@ -1,21 +1,56 @@
-import React from 'react';
-import {ContactForm} from './ContactForm/ContactForm';
-import {ContactList } from './ContactList/ContactList';
-import {Filter} from './Filter/Filter';
-import { AiFillPhone } from 'react-icons/ai';
+import { Routes, Route } from 'react-router-dom';
+import { ContactsPage } from './Page/ContactsPage/ContactsPage';
+import { LoginPage } from './Page/LoginPage/LoginPage';
+import { SignUpPage } from './Page/SignUpPage/SingUpPage';
+import { GlobalStyle } from './GlobalStyle';
+import { Layout } from './Layout';
+import { PrivateRoute } from './PrivateRoute';
+import { RestrictedRoute } from './RestrictedRoute';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { refreshUser } from './redux/auth/operations';
+import { selectIsRefreshing } from './redux/auth/selectors';
 
-function App() {
-
+export const App = () => {
+  const dispatch = useDispatch();
+  const isRefreshing = useSelector(selectIsRefreshing);
+  useEffect(() => {
+    dispatch(refreshUser());
+  }, [dispatch]);
   return (
-      <div className="App">
-    <h1> <AiFillPhone size={30} color="pink" /> Phonebook <AiFillPhone size={30} color="pink" /></h1>
-    <ContactForm />
-    <h1>Contacts</h1>
-    <Filter />
-    <ContactList />
-  </div>
+    <>
+      {!isRefreshing && (
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route
+              index
+              element={
+                <RestrictedRoute
+                  redirectTo="/contacts"
+                  component={<LoginPage />}
+                />
+              }
+            />
 
+            <Route
+              path="contacts"
+              element={
+                <PrivateRoute redirectTo="/" component={<ContactsPage />} />
+              }
+            />
+            <Route
+              path="signup"
+              element={
+                <RestrictedRoute
+                  redirectTo="/contacts"
+                  component={<SignUpPage />}
+                />
+              }
+            />
+          </Route>
+        </Routes>
+      )}
+      <GlobalStyle />
+    </>
   );
-}
-
-export default App;
+};

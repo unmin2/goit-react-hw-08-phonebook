@@ -5,8 +5,8 @@ import {
   selectError,
   selectFilteredContacts,
   selectIsLoading,
-} from '../redux/selectors';
-import { fetchContacts, deleteContact } from '../redux/operations'; 
+} from '../redux/contacts/selectors';
+import { fetchContacts, deleteContact } from '../redux/contacts/operations'; 
 import { Button, Item, List, Text, Spinner } from './ContactList.styled';
 
 export const ContactList = () => {
