@@ -46,21 +46,25 @@ const handleDeleteContactSuccess = (state, action) => {
   };
 };
 
+
+
+
+
 const contactsSlice = createSlice({
   name: 'contacts',
   initialState,
-  extraReducers: {
-    [fetchContacts.pending]: handlePending,
-    [addContact.pending]: handlePending,
-    [deleteContact.pending]: handlePending,
-    [fetchContacts.rejected]: handleRejected,
-    [addContact.rejected]: handleRejected,
-    [deleteContact.rejected]: handleRejected,
-    [fetchContacts.fulfilled]: handleFetchContactsSuccess,
-    [addContact.fulfilled]: handleAddContactSuccess,
-    [deleteContact.fulfilled]: handleDeleteContactSuccess,
+  reducers: {}, // Порожній об'єкт для редукторів, оскільки ми визначимо їх окремо
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchContacts.pending, handlePending)
+      .addCase(addContact.pending, handlePending)
+      .addCase(deleteContact.pending, handlePending)
+      .addCase(fetchContacts.rejected, handleRejected)
+      .addCase(addContact.rejected, handleRejected)
+      .addCase(deleteContact.rejected, handleRejected)
+      .addCase(fetchContacts.fulfilled, handleFetchContactsSuccess)
+      .addCase(addContact.fulfilled, handleAddContactSuccess)
+      .addCase(deleteContact.fulfilled, handleDeleteContactSuccess);
   },
 });
-
 export const contactsReducer = contactsSlice.reducer;
-
