@@ -13,7 +13,7 @@ export const LoginPage = () => {
     if (error) {
       dispatch(removeError());
     }
-  }, []);
+  });
   
   return (
     <div>

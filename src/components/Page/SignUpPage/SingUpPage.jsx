@@ -12,7 +12,7 @@ export const SignUpPage = () => {
     if (error) {
       dispatch(removeError());
     }
-  }, []);
+  });
 
   return (
     <div>
