@@ -1,6 +1,3 @@
-export const errorAction = (errorMessage) => {
-  return {
-    type: 'ERROR',
-    error: errorMessage,
-  };
-};
+import { createAction } from '@reduxjs/toolkit';
+
+export const removeError = createAction('REMOVE_ERROR');

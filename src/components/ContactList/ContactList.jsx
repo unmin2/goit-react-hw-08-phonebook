@@ -17,7 +17,7 @@ export const ContactList = () => {
 
   useEffect(() => {
     dispatch(fetchContacts()); 
-  }, [dispatch]);
+  }, []);
 
   const onDeleteContact = id => {
     dispatch(deleteContact(id)); 
@@ -31,11 +31,11 @@ export const ContactList = () => {
       )}
       {error && <Text>{error}</Text>}
       <List>
-        {filteredContacts.map(({ id, name, phone }) => (
+        {filteredContacts.map(({ id, name, number }) => (
           <Item key={id}>
             <AiFillPhone size={20} color="pink" />
             <Text>
-              {name}: {phone}
+              {name}: {number}
             </Text>
             <Button type="button" onClick={() => onDeleteContact(id)}>
               Delete

@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { ContactsPage } from './Page/ContactsPage/ContactsPage';
 import { LoginPage } from './Page/LoginPage/LoginPage';
 import { SignUpPage } from './Page/SignUpPage/SingUpPage';
@@ -48,6 +48,7 @@ export const App = () => {
               }
             />
           </Route>
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       )}
       <GlobalStyle />

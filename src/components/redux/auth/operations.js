@@ -21,8 +21,12 @@ export const signup = createAsyncThunk(
 
       return res.data;
     } catch (error) {
-      console.log('error');
-      thunkAPI.rejectWithValue(error.message);
+      const defaultErrorMessage = 'Cannot be created user';
+      const errorData = {
+        error: error?.response?.data?.message ?? defaultErrorMessage
+      }
+
+      return thunkAPI.rejectWithValue(errorData);
     }
   }
 );
@@ -36,7 +40,12 @@ export const login = createAsyncThunk(
 
       return res.data;
     } catch (error) {
-      thunkAPI.rejectWithValue(error.message);
+      const errorData = {
+        user: { name: null, email: null },
+        error: 'The user with this email and password combination doesn\'t esixt in the database'
+      };
+
+      return thunkAPI.rejectWithValue(errorData);
     }
   }
 );
