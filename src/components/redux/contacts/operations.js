@@ -1,59 +1,46 @@
- import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
+import { Notify } from 'notiflix';
+
+axios.defaults.baseURL = 'https://connections-api.herokuapp.com';
 
 export const fetchContacts = createAsyncThunk(
-  'contacts/getAllContacts',
-
-  async thunkApi => {
+  'contacts/fetchAll',
+  async (_, thunkAPI) => {
     try {
       const response = await axios.get('/contacts');
       return response.data;
     } catch (error) {
-      return thunkApi.rejectWithValue(error.message);
+      Notify.error('Oops. Something is wrong. Please try again!');
+      return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
 
 export const addContact = createAsyncThunk(
   'contacts/addContact',
-  async (contact, thunkApi) => {
+  async ({ name, number }, thunkAPI) => {
     try {
-      const response = await axios.post('/contacts', contact);
-
+      const response = await axios.post('/contacts', { name, number });
+      Notify.success(`${name} is added to the contact list!`);
       return response.data;
     } catch (error) {
-      return thunkApi.rejectWithValue(error.message);
+      Notify.error('Oops. Something is wrong. Please try again!');
+      return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
 
 export const deleteContact = createAsyncThunk(
   'contacts/deleteContact',
-  async (contactId, thunkApi) => {
+  async (contactId, thunkAPI) => {
     try {
       const response = await axios.delete(`/contacts/${contactId}`);
-
+      Notify.info(`This contact is delited from your phonebook!`);
       return response.data;
     } catch (error) {
-      return thunkApi.rejectWithValue(error.message);
-    }
-  }
-);
-
-export const updateContact = createAsyncThunk(
-  'contacts/updateContact',
-  async (credentials, thunkAPI) => {
-    const contactId = credentials.id;
-    try {
-      const response = await axios.patch(`/contacts/${contactId}`, {
-        name: credentials.name,
-        number: credentials.number,
-      });
-      return response.data;
-    } catch (error) {
+      Notify.error('Oops. Something is wrong. Please try again!');
       return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
-
-//??
